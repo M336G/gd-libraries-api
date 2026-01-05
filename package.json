@@ -1,0 +1,18 @@
+{
+	"name": "gd-libraries-api",
+	"description": "A Cloudflare Workers API JSON wrapper for more convenient use of Geometry Dash's music & SFX libraries' data",
+	"version": "1.0.0",
+	"license": "MPL-2.0",
+	"private": true,
+	"scripts": {
+		"deploy": "wrangler deploy",
+		"dev": "wrangler dev",
+		"start": "wrangler dev",
+		"test": "vitest"
+	},
+	"devDependencies": {
+		"@cloudflare/vitest-pool-workers": "^0.8.19",
+		"vitest": "~3.2.0",
+		"wrangler": "^4.54.0"
+	}
+}
