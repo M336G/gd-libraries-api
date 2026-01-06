@@ -114,7 +114,7 @@ function parseMusicLibrary(data) {
                         id: Number(id),
                         name,
                         website: website === " " ? null : decodeURIComponent(website),
-                        youtube: youtube === " " ? null : youtube
+                        youtube: youtube === " " ? null : `https://www.youtube.com/channel/${youtube}`
                     }
                 ];
             })
@@ -137,6 +137,7 @@ function parseMusicLibrary(data) {
         ]) => ({
             id: Number(id),
             name,
+            url: `https://geometrydashfiles.b-cdn.net/music/${id}.ogg`,
             artists: [
                 artistMap.get(Number(primaryArtistID)),
                 ...extraArtistStr
@@ -172,6 +173,7 @@ function parseSfxLibrary(data) {
         .map(([id, name, , , size, duration]) => ({
             id: Number(id),
             name,
+            url: `https://geometrydashfiles.b-cdn.net/sfx/s${id}.ogg`,
             size: Number(size),
             duration: Number(duration)
         }));
