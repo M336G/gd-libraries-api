@@ -1,7 +1,7 @@
 {
 	"name": "gd-libraries-api",
 	"description": "A Cloudflare Workers API JSON wrapper for more convenient use of Geometry Dash's music & SFX libraries' data",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"license": "MPL-2.0",
 	"private": true,
 	"scripts": {
