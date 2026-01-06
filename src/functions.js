@@ -137,7 +137,7 @@ function parseMusicLibrary(data) {
         ]) => ({
             id: Number(id),
             name,
-            url: `https://geometrydashfiles.b-cdn.net/music/${id}.ogg`,
+            url: `https://geometrydashfiles.b-cdn.net/music/${id}.ogg` + generateLibraryExpiresAndTokenParametersString(`/music/${id}.ogg`),
             artists: [
                 artistMap.get(Number(primaryArtistID)),
                 ...extraArtistStr
@@ -173,7 +173,7 @@ function parseSfxLibrary(data) {
         .map(([id, name, , , size, duration]) => ({
             id: Number(id),
             name,
-            url: `https://geometrydashfiles.b-cdn.net/sfx/s${id}.ogg`,
+            url: `https://geometrydashfiles.b-cdn.net/sfx/s${id}.ogg` + generateLibraryExpiresAndTokenParametersString(`/sfx/s${id}.ogg`),
             size: Number(size),
             duration: Number(duration)
         }));
@@ -191,6 +191,7 @@ function parseSfxLibrary(data) {
 export async function checkLibraryUpdate(type, library) {
     if (library.lastCheck + 3600000 < Date.now()) {
         console.log(`Checking for a ${type} library update...`);
+
         const latestVersion = await getLibraryVersion(type);
 
         if (library.version !== latestVersion) {
@@ -203,6 +204,16 @@ export async function checkLibraryUpdate(type, library) {
             library.lastCheck = Date.now();
             console.log(`${type} library updated to version ${latestVersion}`);
         } else {
+            console.log(`Updating ${type} library CDN tokens...`);
+            for (const song of library.data) {
+                const baseUrl = song.url.split("?")[0];
+
+                song.url =
+                    type === "music"
+                        ? baseUrl + generateLibraryExpiresAndTokenParametersString(`/music/${song.id}.ogg`)
+                        : baseUrl + generateLibraryExpiresAndTokenParametersString(`/sfx/s${song.id}.ogg`);
+            }
+
             library.lastCheck = Date.now();
             console.log(`${type} library is up to date`);
         }
