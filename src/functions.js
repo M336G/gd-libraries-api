@@ -214,7 +214,10 @@ export async function checkLibraryUpdate(type, library) {
     * @returns {Array<Object>} Filtered library data
 **/
 export function getFilteredLibraryData(data, search) {
+    const query = search.toLowerCase();
+
     return data.filter(song =>
-        song.name?.toLowerCase().includes(search.toLowerCase())
+        song.name?.toLowerCase().includes(query) ||
+        song.id?.toString().toLowerCase().includes(query)
     );
 }
