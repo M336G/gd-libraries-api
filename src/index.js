@@ -1,6 +1,6 @@
 import { checkLibraryUpdate, getFilteredLibraryData } from "./functions.js";
 
-const GD_LIBRARY = { version: null, data: null, lastCheck: 0 };
+const MUSIC_LIBRARY = { version: null, data: null, lastCheck: 0 };
 const SFX_LIBRARY = { version: null, data: null, lastCheck: 0 };
 
 export default {
@@ -8,22 +8,44 @@ export default {
 		const url = new URL(request.url);
 		const search = url.searchParams.get("search")?.trim() || "";
 
-		switch (url.pathname) {
-			case "/api/music":
-				await checkLibraryUpdate("music", GD_LIBRARY);
+		switch (true) {
+			case url.pathname.startsWith("/api/music/"):
+				await checkLibraryUpdate("music", MUSIC_LIBRARY);
+
+				const musicId = url.pathname.split("/").pop();
+				const music = MUSIC_LIBRARY.data.filter(entry => entry.id == musicId);
+
+				if (music.length == 1)
+					return Response.redirect(music[0].url);
+				else
+					return Response.redirect("https://gd-libraries-api.m336.workers.dev/api/music");
+
+			case url.pathname.startsWith("/api/sfx/"):
+				await checkLibraryUpdate("sfx", SFX_LIBRARY);
+
+				const sfxId = url.pathname.split("/").pop();
+				const sfx = SFX_LIBRARY.data.filter(entry => entry.id == sfxId);
+
+				if (sfx.length == 1)
+					return Response.redirect(sfx[0].url);
+				else
+					return Response.redirect("https://gd-libraries-api.m336.workers.dev/api/sfx");
+
+			case url.pathname === "/api/music":
+				await checkLibraryUpdate("music", MUSIC_LIBRARY);
 
 				return new Response(JSON.stringify(
 					{
 						type: "music",
-						total: GD_LIBRARY.data.length,
-						version: GD_LIBRARY.version,
-						lastCheck: GD_LIBRARY.lastCheck,
+						total: MUSIC_LIBRARY.data.length,
+						version: MUSIC_LIBRARY.version,
+						lastCheck: MUSIC_LIBRARY.lastCheck,
 						search,
 
-						data: search ? getFilteredLibraryData(GD_LIBRARY.data, search) : GD_LIBRARY.data
+						data: search ? getFilteredLibraryData(MUSIC_LIBRARY.data, search) : MUSIC_LIBRARY.data
 					}
 				), { headers: { "Content-Type": "application/json" } });
-			case "/api/sfx":
+			case url.pathname === "/api/sfx":
 				await checkLibraryUpdate("sfx", SFX_LIBRARY);
 
 				return new Response(JSON.stringify(
