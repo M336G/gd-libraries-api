@@ -26,10 +26,10 @@ async function getLibraryVersion(type) {
 
     switch (type) {
         case "music":
-            versionUrl = "https://geometrydashfiles.b-cdn.net/music/musiclibrary_version_02.txt" + generateLibraryExpiresAndTokenParametersString("musiclibrary_version_02.txt");
+            versionUrl = "https://geometrydashfiles.b-cdn.net/music/musiclibrary_version_02.txt" + generateLibraryExpiresAndTokenParametersString("/music/musiclibrary_version_02.txt");
             break;
         case "sfx":
-            versionUrl = "https://geometrydashfiles.b-cdn.net/sfx/sfxlibrary_version.txt" + generateLibraryExpiresAndTokenParametersString("sfxlibrary_version.txt");
+            versionUrl = "https://geometrydashfiles.b-cdn.net/sfx/sfxlibrary_version.txt" + generateLibraryExpiresAndTokenParametersString("/sfx/sfxlibrary_version.txt");
             break;
         default:
             throw new Error(`Invalid library type: ${type}`);
@@ -53,10 +53,10 @@ async function getLibraryData(type) {
 
     switch (type) {
         case "music":
-            dataUrl = "https://geometrydashfiles.b-cdn.net/music/musiclibrary_02.dat" + generateLibraryExpiresAndTokenParametersString("musiclibrary_02.dat");
+            dataUrl = "https://geometrydashfiles.b-cdn.net/music/musiclibrary_02.dat" + generateLibraryExpiresAndTokenParametersString("/music/musiclibrary_02.dat");
             break;
         case "sfx":
-            dataUrl = "https://geometrydashfiles.b-cdn.net/sfx/sfxlibrary.dat" + generateLibraryExpiresAndTokenParametersString("sfxlibrary.dat");
+            dataUrl = "https://geometrydashfiles.b-cdn.net/sfx/sfxlibrary.dat" + generateLibraryExpiresAndTokenParametersString("/sfx/sfxlibrary.dat");
             break;
         default:
             throw new Error(`Invalid library type: ${type}`);
@@ -220,6 +220,9 @@ export function getFilteredLibraryData(data, search) {
 
     return data.filter(song =>
         song.name?.toLowerCase().includes(query) ||
-        song.id?.toString().toLowerCase().includes(query)
+        song.id?.toString().toLowerCase().includes(query) ||
+        song.artists?.some(artist =>
+            artist.name?.toLowerCase().includes(query)
+        )
     );
 }
