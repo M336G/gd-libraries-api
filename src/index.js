@@ -9,6 +9,9 @@ export default {
 		const search = url.searchParams.get("search")?.trim() || "";
 
 		switch (true) {
+			case url.pathname === "/":
+				return Response.redirect("https://gd-libraries-api.m336.workers.dev/api/music");
+
 			case url.pathname.startsWith("/api/music/"):
 				await checkLibraryUpdate("music", MUSIC_LIBRARY);
 

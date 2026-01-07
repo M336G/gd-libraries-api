@@ -35,7 +35,7 @@ async function getLibraryVersion(type) {
             throw new Error(`Invalid library type: ${type}`);
     }
 
-    const versionReq = await fetch(versionUrl);
+    const versionReq = await fetch(versionUrl, { headers: { "User-Agent": "" } });
 
     if (!versionReq?.ok)
         throw new Error(`Failed to get ${type} library's version`);
@@ -62,7 +62,7 @@ async function getLibraryData(type) {
             throw new Error(`Invalid library type: ${type}`);
     }
 
-    const dataReq = await fetch(dataUrl);
+    const dataReq = await fetch(dataUrl, { headers: { "User-Agent": "" } });
 
     if (!dataReq?.ok)
         throw new Error(`Failed to get ${type} library's data`);
