@@ -5,10 +5,12 @@ A Cloudflare Workers API JSON wrapper for more convenient use of Geometry Dash's
 With this API, you may access a total of four endpoints:
 - `GET /api/music/<id>` to get redirected to a music's direct download link with up-to-date CDN tokens (works as a permanent endpoint).
 - `GET /api/sfx/<id>` to get redirected to an SFX's direct download link with up-to-date CDN tokens (works as a permanent endpoint).
+- `GET /api/music/random` to get redirected to a random music's direct download link with up-to-date CDN tokens (works as a permanent endpoint).
+- `GET /api/sfx/random` to get redirected to a random SFX's direct download link with up-to-date CDN tokens (works as a permanent endpoint).
 - `GET /api/music` to get a JSON output of the music library.
 - `GET /api/sfx` to get a JSON output of the SFX library.
 
-Additionally, you may use the `?search=` query parameter to filter results around a specific string like so:
+Additionally, you may use the `?random=true` query parameter to get the data of a random song and/or `?search=` to filter results around a specific string like so:
 
 `/api/music?search=Flamewall`
 ```json
@@ -40,7 +42,7 @@ Additionally, you may use the `?search=` query parameter to filter results aroun
     ]
 }
 ```
-***Note:** this query parameter can be used for both endpoints, not just the music library one.*
+***Note:** these query parameters can only be used for the `GET /api/music` and the `GET /api/sfx` endpoints.*
 
 ## Contributing
 Feel free to open pull requests if you wish to contribute to the project!
